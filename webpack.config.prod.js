@@ -35,6 +35,9 @@ module.exports = {
         minifyURLs: true,
       },
     }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
     new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),

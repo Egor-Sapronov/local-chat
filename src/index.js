@@ -4,11 +4,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import 'normalize.css';
 import { receiveMessage } from './actions/messageActions';
 import { setLocation } from './actions/geoActions';
 import Router from './Router';
 import './index.css';
 import createStore from './store/store';
+import { LOG_IN, authSuccess, authFail } from './actions/authActions';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyBF3xxye-JVFK2EQ3DAxRDDaIjTbPOWTy0',
@@ -33,11 +35,30 @@ if ('geolocation' in navigator) {
   });
 }
 
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    return firebase
+      .database()
+      .ref(`users/${user.uid}`)
+      .set({
+        name: user.displayName,
+        email: user.email,
+        photoUrl: user.photoURL,
+        uid: user.uid,
+      })
+      .then(() => user)
+      .then(() => store.dispatch(authSuccess(user)));
+  }
+
+  return null;
+});
+
 firebase
   .database()
   .ref('messages')
   .limitToFirst(100)
   .on('child_added', pushMessageToStore);
+
 
 ReactDOM.render(
   <Provider store={store}>

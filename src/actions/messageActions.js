@@ -1,4 +1,3 @@
-export const CURRENT_MESSAGE_CHANGE = 'CURRENT_MESSAGE_CHANGE';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 export const MESSAGE_SENT = 'MESSAGE_SENT';
@@ -18,16 +17,10 @@ export function newMessage(message) {
   };
 }
 
-export function changeMessage(message) {
-  return {
-    type: CURRENT_MESSAGE_CHANGE,
-    message,
-  };
-}
-
-export function sendMessage(coords) {
+export function sendMessage(message, coords) {
   return {
     type: SEND_MESSAGE,
+    message,
     coords,
   };
 }

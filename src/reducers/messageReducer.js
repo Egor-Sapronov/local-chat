@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 import { Effects, loop } from 'redux-loop';
 import {
-  CURRENT_MESSAGE_CHANGE,
   SEND_MESSAGE,
   NEW_MESSAGE,
   RECEIVE_MESSAGE,
@@ -44,17 +43,11 @@ function mapUserToMessage(currentMessage) {
 }
 
 const initialState = {
-  message: '',
   messages: [],
 };
 
 export default function message(state = initialState, action) {
   switch (action.type) {
-    case CURRENT_MESSAGE_CHANGE:
-      return {
-        ...state,
-        message: action.message,
-      };
     case RECEIVE_MESSAGE:
       return loop(
         state,
@@ -69,9 +62,8 @@ export default function message(state = initialState, action) {
       return loop(
         {
           ...state,
-          message: '',
         },
-        Effects.promise(pushMessageEffect, state.message, action.coords)
+        Effects.promise(pushMessageEffect, action.message, action.coords)
       );
     default:
       return state;

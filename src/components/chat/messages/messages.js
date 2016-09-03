@@ -41,7 +41,7 @@ const selector = createSelector(
     messages: messages.messages.map(item => ({
       ...item,
       date: `${prettyTime(item.createdAt)}`,
-    })),
+    })).sort((itemOne, itemTwo) => itemOne.createdAt > itemTwo.createdAt),
     myUid: user.uid,
   })
 );

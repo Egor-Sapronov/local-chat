@@ -24,7 +24,9 @@ module.exports = {
       template: paths.appHtml,
       favicon: paths.appFavicon,
     }),
-    new webpack.DefinePlugin({}),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
     new webpack.HotModuleReplacementPlugin(),
     // new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),
   ],

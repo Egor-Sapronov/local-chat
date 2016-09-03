@@ -1,0 +1,21 @@
+.navbar {
+  height: 48px;
+  border-bottom: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.side_item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  height: 34px;
+  border-radius: 50%;
+}

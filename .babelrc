@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "babel-preset-latest", "babel-preset-react"
+  ],
+  "plugins": [
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-transform-object-rest-spread",
+    "babel-plugin-transform-regenerator",
+    "babel-plugin-transform-runtime"
+  ]
+}

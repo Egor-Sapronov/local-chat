@@ -1,0 +1,57 @@
+.message {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 16px;
+  flex: 1;
+}
+
+.avatar {
+  height: 34px;
+  border-radius: 50%;
+}
+
+.date_field {
+  padding-top: 4px;
+  font-weight: 300;
+  font-size: 8px;
+  color: #b3b3b3;
+}
+
+.name_field {
+  font-weight: bold;
+  font-size: 12px;
+  padding-bottom: 4px;
+}
+
+.message_field {
+  font-weight: 300;
+  font-size: 16px;
+  max-width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 8px;
+}
+
+.avatar_field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;;
+  justify-content: flex-end;
+  padding-right: 8px;
+}
+
+.message_reverse {
+  composes: message;
+  flex-direction: row-reverse;
+}
+
+.message_reverse .message_field {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.message_reverse .avatar_field {
+  padding-left: 8px;
+  padding-right: 0;
+}

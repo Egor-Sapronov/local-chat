@@ -1,0 +1,35 @@
+.footer {
+  height: 48px;
+  border-top: 1px solid #ebebeb;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 16px;
+}
+
+.input_field {
+  flex-grow: 1;
+  display: flex;
+}
+
+.input_field input {
+  flex-grow: 1;
+  height: 30px;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding: 0 8px;
+}
+
+.send_field {
+  display: flex;
+  padding-left: 16px;
+}
+
+.send_field .send_button {
+  margin: 0 8px;
+}
+
+.send_field .send_button i {
+  color: #3b5998;
+}

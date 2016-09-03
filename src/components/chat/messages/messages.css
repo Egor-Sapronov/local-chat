@@ -1,0 +1,11 @@
+.messages {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.scroll {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px;
+}

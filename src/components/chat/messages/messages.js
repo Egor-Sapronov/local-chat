@@ -10,7 +10,7 @@ function scrollBottom(element) {
   element.scrollTop = element.clientHeight - element.offsetTop;
 }
 
-export const Messages = ({ messages, myUid }) => (
+export const MessagesComponent = ({ messages, myUid }) => (
   <div className={styles.messages}>
     <div ref={scrollBottom} className={styles.scroll}>
       {messages.map(message => (
@@ -27,7 +27,7 @@ export const Messages = ({ messages, myUid }) => (
   </div>
 );
 
-Messages.propTypes = {
+MessagesComponent.propTypes = {
   messages: PropTypes.array.isRequired,
   myUid: PropTypes.string.isRequired,
 };
@@ -46,4 +46,4 @@ const selector = createSelector(
   })
 );
 
-export default connect(selector)(Messages);
+export default connect(selector)(MessagesComponent);

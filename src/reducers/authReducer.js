@@ -1,24 +1,17 @@
-import firebase from 'firebase';
-import { Effects, loop } from 'redux-loop';
-import { LOG_IN, tryAuth } from '../actions/authActions';
+import { AUTH_SUCCESS, AUTH_FAIL } from '../actions/authActions';
 
-const initialState = {};
-
-function signInEffect() {
-  const provider = new firebase.auth.FacebookAuthProvider();
-
-  return firebase.auth()
-    .signInWithPopup(provider)
-    .then(tryAuth);
-}
+const initialState = {
+  isLoading: true,
+};
 
 export default function auth(state = initialState, action) {
   switch (action.type) {
-    case LOG_IN:
-      return loop(
-        state,
-        Effects.promise(signInEffect)
-      );
+    case AUTH_SUCCESS:
+    case AUTH_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
       return state;
   }

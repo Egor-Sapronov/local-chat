@@ -13,13 +13,46 @@
   justify-content: center;
 }
 
+.login_item .fb_logo {
+  background: url(./assets/FB-f-Logo__blue_72.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 32px;
+  height: 32px;
+}
+
+.login_item .logo_text {
+  padding: 8px
+}
+
 .login_item button {
   font-size: 18px;
+  padding: 4px 8px;
   font-weight: bold;
-  background: #3b5998;
+  background: #3b579d;
   color: #ffffff;
   border: none;
-  padding: 16px 56px;
+  letter-spacing: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
+
+.login_item i {
+  font-size: 42px;
+  color: #3b579d;
+  animation: roll 2s infinite;
+  transform: rotate(30deg);
+}
+
+@keyframes roll {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .header {

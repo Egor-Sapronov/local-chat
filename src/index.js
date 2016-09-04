@@ -10,7 +10,7 @@ import { setLocation } from './actions/geoActions';
 import Router from './Router';
 import './index.css';
 import createStore from './store/store';
-import { LOG_IN, authSuccess, authFail } from './actions/authActions';
+import { authSuccess, authFail } from './actions/authActions';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyBF3xxye-JVFK2EQ3DAxRDDaIjTbPOWTy0',
@@ -37,7 +37,7 @@ if ('geolocation' in navigator) {
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
-    return firebase
+    firebase
       .database()
       .ref(`users/${user.uid}`)
       .set({
@@ -48,17 +48,16 @@ firebase.auth().onAuthStateChanged(user => {
       })
       .then(() => user)
       .then(() => store.dispatch(authSuccess(user)));
+
+    firebase
+      .database()
+      .ref('messages')
+      .limitToFirst(100)
+      .on('child_added', pushMessageToStore);
+  } else {
+    store.dispatch(authFail());
   }
-
-  return null;
 });
-
-firebase
-  .database()
-  .ref('messages')
-  .limitToFirst(100)
-  .on('child_added', pushMessageToStore);
-
 
 ReactDOM.render(
   <Provider store={store}>

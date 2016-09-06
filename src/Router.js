@@ -7,6 +7,7 @@ import Login from './components/login/login';
 import ChatFooter from './components/chat/footer/footer';
 import ChatNavbar from './components/chat/navbar/navbar';
 import Messages from './components/chat/messages/messages';
+import Privacy from './components/privacy/privacy';
 
 class AppRouter extends Component {
   constructor(props) {
@@ -37,6 +38,12 @@ class AppRouter extends Component {
             path="login"
             components={{
               content: Login,
+            }}
+          />
+          <Route
+            path="privacy"
+            components={{
+              content: Privacy,
             }}
           />
         </Route>

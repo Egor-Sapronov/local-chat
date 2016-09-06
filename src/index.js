@@ -56,16 +56,22 @@ function listenAuth() {
   });
 }
 
-if ('geolocation' in navigator) {
-  navigator.geolocation.getCurrentPosition(position => {
-    if (position) {
-      store.dispatch(setLocation(position));
+function geoSuccess(position) {
+  if (position) {
+    store.dispatch(setLocation(position));
 
-      listenAuth();
-    } else {
-      store.dispatch(bannedLocation());
-    }
-  });
+    listenAuth();
+  } else {
+    store.dispatch(bannedLocation());
+  }
+}
+
+function geoError() {
+  store.dispatch(bannedLocation());
+}
+
+if ('geolocation' in navigator) {
+  navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
 
   navigator.geolocation.watchPosition(position => {
     store.dispatch(setLocation(position));

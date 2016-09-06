@@ -13,18 +13,20 @@ function signInFacebook() {
     .signInWithPopup(provider);
 }
 
-const Login = ({ isLoading }) => (
+const Login = ({ isLoginVisible, isBannedLocation, isLoaderVisible }) => (
   <div className={styles.login}>
     <div className={styles.header}>
       <h4>RECOMEA</h4>
     </div>
     <div className={styles.login_item}>
-      {!isLoading && <button onClick={signInFacebook}>
+      {isLoginVisible && <button onClick={signInFacebook}>
         <div className={styles.fb_logo} />
         <div className={styles.logo_text}>Log In</div>
       </button>}
 
-      {isLoading && <i className="material-icons">loop</i>}
+      {isBannedLocation && <h4>Enable geolocation</h4>}
+
+      {isLoaderVisible && <i className="material-icons">loop</i>}
     </div>
     <div className={styles.login_item}>
       <p>Local chat</p>
@@ -33,7 +35,9 @@ const Login = ({ isLoading }) => (
 );
 
 Login.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
+  isLoaderVisible: PropTypes.bool.isRequired,
+  isBannedLocation: PropTypes.bool.isRequired,
+  isLoginVisible: PropTypes.bool.isRequired,
 };
 
 const selector = createSelector(
@@ -41,7 +45,9 @@ const selector = createSelector(
   state => state.geo,
   (auth, geo) => ({
     isLoading: auth.isLoading || geo.isLoading,
+    isLoginVisible: !(auth.isLoading || geo.isLoading) && !geo.isBanned,
     isBannedLocation: geo.isBanned,
+    isLoaderVisible: !geo.isBanned && (auth.isLoading || geo.isLoading),
   })
 );
 

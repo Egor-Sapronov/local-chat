@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { memoize } from 'lodash';
+import { memoize, sortBy } from 'lodash';
 import styles from './messages.css';
 import Message from '../message/message';
 
 function scrollBottom(element) {
-  // eslint-disable-next-line no-param-reassign
-  element.scrollTop = element.clientHeight - element.offsetTop;
+  if (element) {
+    // eslint-disable-next-line no-param-reassign
+    element.scrollTop = element.clientHeight - element.offsetTop;
+  }
 }
 
 export const MessagesComponent = ({ messages, myUid }) => (
@@ -21,6 +23,7 @@ export const MessagesComponent = ({ messages, myUid }) => (
           name={message.user.name}
           avatarUrl={message.user.photoUrl}
           isReverse={message.userId === myUid}
+          uid={message.user.facebookUid}
         />
       ))}
     </div>
@@ -38,10 +41,10 @@ const selector = createSelector(
   state => state.message,
   state => state.user,
   (messages, user) => ({
-    messages: messages.messages.map(item => ({
+    messages: sortBy(messages.messages.map(item => ({
       ...item,
       date: `${prettyTime(item.createdAt)}`,
-    })).sort((itemOne, itemTwo) => itemOne.createdAt > itemTwo.createdAt),
+    })), item => item.createdAt),
     myUid: user.uid,
   })
 );

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { userSelector } from '../../../reducers/userReducer';
 import styles from './navbar.css';
 
-export const Navbar = ({ photoUrl }) => (
+export const Navbar = ({ photoUrl, facebookUid }) => (
   <div className={styles.navbar}>
     <div className={styles.side_item}>
       R
@@ -13,13 +13,16 @@ export const Navbar = ({ photoUrl }) => (
       Chat
     </div>
     <div className={styles.side_item}>
-      <img className={styles.avatar} src={photoUrl} role="presentation" />
+      <a target="_blank" href={`https://facebook.com/${facebookUid}`} rel="noopener noreferrer">
+        <img className={styles.avatar} src={photoUrl} role="presentation" />
+      </a>
     </div>
   </div>
 );
 
 Navbar.propTypes = {
   photoUrl: PropTypes.string.isRequired,
+  facebookUid: PropTypes.string.isRequired,
 };
 
 const selector = createSelector(

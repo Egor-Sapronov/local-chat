@@ -45,6 +45,7 @@ firebase.auth().onAuthStateChanged(user => {
         email: user.email,
         photoUrl: user.photoURL,
         uid: user.uid,
+        facebookUid: user.providerData[0].uid,
       })
       .then(() => user)
       .then(() => store.dispatch(authSuccess(user)));

@@ -13,6 +13,7 @@ export default function user(state = initialState, action) {
         email: action.user.email,
         photoUrl: action.user.photoURL,
         uid: action.user.uid,
+        facebookUid: action.user.providerData[0].uid,
         isLoggedIn: true,
       };
     default:

@@ -7,6 +7,8 @@ import styles from './login.css';
 function signInFacebook() {
   const provider = new firebase.auth.FacebookAuthProvider();
 
+  provider.addScope('public_profile');
+
   return firebase.auth()
     .signInWithPopup(provider);
 }

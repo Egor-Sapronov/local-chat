@@ -36,6 +36,7 @@ function mapUserToMessage(currentMessage) {
           email: userSnap.email,
           photoUrl: userSnap.photoUrl,
           uid: userSnap.uid,
+          facebookUid: userSnap.facebookUid,
         },
       };
     })

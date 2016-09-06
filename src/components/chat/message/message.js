@@ -4,12 +4,14 @@ import styles from './message.css';
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Message extends PureComponent {
   render() {
-    const { message, avatarUrl, isReverse, date, name } = this.props;
+    const { message, avatarUrl, isReverse, date, name, uid } = this.props;
 
     return (
       <div className={!isReverse ? styles.message : styles.message_reverse}>
         <div className={styles.avatar_field}>
-          <img src={avatarUrl} className={styles.avatar} role="presentation" />
+          <a target="_blank" href={`https://facebook.com/${uid}`} rel="noopener noreferrer">
+            <img src={avatarUrl} className={styles.avatar} role="presentation" />
+          </a>
           <div className={styles.date_field}>{date}</div>
         </div>
         <div className={styles.message_field}>
@@ -27,4 +29,5 @@ Message.propTypes = {
   date: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   isReverse: PropTypes.bool,
+  uid: PropTypes.string.isRequired,
 };

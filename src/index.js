@@ -11,6 +11,7 @@ import Router from './Router';
 import './index.css';
 import createStore from './store/store';
 import { authSuccess, authFail } from './actions/authActions';
+import { calcCrow } from './tools/range';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyBF3xxye-JVFK2EQ3DAxRDDaIjTbPOWTy0',
@@ -23,8 +24,27 @@ const store = createStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 function pushMessageToStore(message) {
+  const state = store.getState();
+  const messageEnitity = message.val();
+
+  if (!state.geo.location) {
+    return null;
+  }
+
+  const distance = calcCrow(
+    state.geo.location.coords.latitude,
+    state.geo.location.coords.longitude,
+    messageEnitity.coords.latitude,
+    messageEnitity.coords.longitude,
+  ).toFixed(1);
+
+  // if (distance > 5) {
+  //   return null;
+  // }
+
   return store.dispatch(receiveMessage({
-    ...message.val(),
+    ...messageEnitity,
+    distance,
     key: message.key,
   }));
 }
@@ -48,7 +68,6 @@ function listenAuth() {
       firebase
         .database()
         .ref('messages')
-        .limitToFirst(100)
         .on('child_added', pushMessageToStore);
     } else {
       store.dispatch(authFail());

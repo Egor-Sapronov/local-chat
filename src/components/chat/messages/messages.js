@@ -24,6 +24,7 @@ export const MessagesComponent = ({ messages, myUid }) => (
           avatarUrl={message.user.photoUrl}
           isReverse={message.userId === myUid}
           uid={message.user.facebookUid}
+          distance={message.distance}
         />
       ))}
     </div>

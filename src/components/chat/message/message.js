@@ -4,7 +4,7 @@ import styles from './message.css';
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Message extends PureComponent {
   render() {
-    const { message, avatarUrl, isReverse, date, name, uid } = this.props;
+    const { message, avatarUrl, isReverse, date, name, uid, distance } = this.props;
 
     return (
       <div className={!isReverse ? styles.message : styles.message_reverse}>
@@ -15,7 +15,12 @@ export default class Message extends PureComponent {
           <div className={styles.date_field}>{date}</div>
         </div>
         <div className={styles.message_field}>
-          { !isReverse && <div className={styles.name_field}>{name}</div>}
+          { !isReverse &&
+            <div className={styles.name_field}>
+              {name}
+              <span>{distance}km</span>
+            </div>
+          }
           <div>{message}</div>
         </div>
       </div>
@@ -30,4 +35,5 @@ Message.propTypes = {
   name: PropTypes.string.isRequired,
   isReverse: PropTypes.bool,
   uid: PropTypes.string.isRequired,
+  distance: PropTypes.string.isRequired,
 };

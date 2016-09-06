@@ -24,6 +24,13 @@
   padding-bottom: 4px;
 }
 
+.name_field span {
+  font-size: 8px;
+  font-weight: 300;
+  padding-left: 4px;
+  color: #b3b3b3
+}
+
 .message_field {
   font-weight: 300;
   font-size: 16px;

@@ -1,7 +1,9 @@
-import { SET_LOCATION } from '../actions/geoActions';
+import { SET_LOCATION, BANNED_LOCATION } from '../actions/geoActions';
 
 const initialState = {
   location: null,
+  isLoading: true,
+  isBanned: false,
 };
 
 export default function geo(state = initialState, action) {
@@ -10,6 +12,13 @@ export default function geo(state = initialState, action) {
       return {
         ...state,
         location: action.location,
+        isLoading: false,
+      };
+    case BANNED_LOCATION:
+      return {
+        ...state,
+        isLoading: false,
+        isBanned: true,
       };
     default:
       return state;

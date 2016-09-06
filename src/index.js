@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import 'normalize.css';
 import { receiveMessage } from './actions/messageActions';
-import { setLocation } from './actions/geoActions';
+import { setLocation, bannedLocation } from './actions/geoActions';
 import Router from './Router';
 import './index.css';
 import createStore from './store/store';
@@ -29,36 +29,50 @@ function pushMessageToStore(message) {
   }));
 }
 
-if ('geolocation' in navigator) {
-  navigator.geolocation.watchPosition(position => {
-    store.dispatch(setLocation(position));
+function listenAuth() {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      firebase
+        .database()
+        .ref(`users/${user.uid}`)
+        .set({
+          name: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL,
+          uid: user.uid,
+          facebookUid: user.providerData[0].uid,
+        })
+        .then(() => user)
+        .then(() => store.dispatch(authSuccess(user)));
+
+      firebase
+        .database()
+        .ref('messages')
+        .limitToFirst(100)
+        .on('child_added', pushMessageToStore);
+    } else {
+      store.dispatch(authFail());
+    }
   });
 }
 
-firebase.auth().onAuthStateChanged(user => {
-  if (user) {
-    firebase
-      .database()
-      .ref(`users/${user.uid}`)
-      .set({
-        name: user.displayName,
-        email: user.email,
-        photoUrl: user.photoURL,
-        uid: user.uid,
-        facebookUid: user.providerData[0].uid,
-      })
-      .then(() => user)
-      .then(() => store.dispatch(authSuccess(user)));
+if ('geolocation' in navigator) {
+  navigator.geolocation.getCurrentPosition(position => {
+    if (position) {
+      store.dispatch(setLocation(position));
 
-    firebase
-      .database()
-      .ref('messages')
-      .limitToFirst(100)
-      .on('child_added', pushMessageToStore);
-  } else {
-    store.dispatch(authFail());
-  }
-});
+      listenAuth();
+    } else {
+      store.dispatch(bannedLocation());
+    }
+  });
+
+  navigator.geolocation.watchPosition(position => {
+    store.dispatch(setLocation(position));
+  });
+} else {
+  store.dispatch(bannedLocation());
+}
 
 ReactDOM.render(
   <Provider store={store}>

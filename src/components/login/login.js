@@ -38,8 +38,10 @@ Login.propTypes = {
 
 const selector = createSelector(
   state => state.auth,
-  auth => ({
-    isLoading: auth.isLoading,
+  state => state.geo,
+  (auth, geo) => ({
+    isLoading: auth.isLoading || geo.isLoading,
+    isBannedLocation: geo.isBanned,
   })
 );
 

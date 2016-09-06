@@ -7,7 +7,6 @@ import Login from './components/login/login';
 import ChatFooter from './components/chat/footer/footer';
 import ChatNavbar from './components/chat/navbar/navbar';
 import Messages from './components/chat/messages/messages';
-import { userSelector } from './reducers/userReducer';
 
 class AppRouter extends Component {
   constructor(props) {
@@ -17,7 +16,7 @@ class AppRouter extends Component {
   }
 
   authRequired(state, replace) {
-    if (!this.props.isLoggedIn) {
+    if (!this.props.isLoggedIn || !this.props.isLocation) {
       replace('/login');
     }
   }
@@ -48,11 +47,16 @@ class AppRouter extends Component {
 
 const selector = createSelector(
   state => state.user,
-  userSelector
+  state => state.geo,
+  (user, geo) => ({
+    isLoggedIn: user.isLoggedIn,
+    isLocation: !!geo.location,
+  })
 );
 
 AppRouter.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
+  isLocation: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired,
 };
 

@@ -13,6 +13,7 @@ export class Footer extends PureComponent {
       editorState: EditorState.createEmpty(),
     };
 
+    this.buttonElem = null;
     this.onChange = this.onChange.bind(this);
     this.onSend = this.onSend.bind(this);
   }
@@ -33,6 +34,12 @@ export class Footer extends PureComponent {
 
   onChange(editorState) {
     this.setState({ editorState });
+  }
+
+  handleKey(event) {
+    if (event.key === 'Enter') {
+      this.onSend();
+    }
   }
 
   render() {

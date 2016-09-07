@@ -11,6 +11,7 @@
   flex: 1;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .login_item .fb_logo {
@@ -39,7 +40,7 @@
   align-content: center;
 }
 
-.login_item i {
+.login_item .loader_field i {
   font-size: 42px;
   color: #3b579d;
   animation: roll 2s infinite;
@@ -55,8 +56,27 @@
   }
 }
 
+.login_item .geo_info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  color: #757575;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.login_item .geo_info i {
+  margin: 0 8px;
+}
+
 .header {
   composes: login_item;
+}
+
+.header p {
+  padding-bottom: 16px;
+  font-weight: 300;
 }
 
 .header h4 {
@@ -65,4 +85,5 @@
   text-align: center;
   padding-top: 64px;
   letter-spacing: 6px;
+  margin-bottom: 8px;
 }

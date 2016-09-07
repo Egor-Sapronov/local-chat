@@ -17,6 +17,7 @@ const Login = ({ isLoginVisible, isBannedLocation, isLoaderVisible }) => (
   <div className={styles.login}>
     <div className={styles.header}>
       <h4>RECOMEA</h4>
+      <p>Local chat</p>
     </div>
     <div className={styles.login_item}>
       {isLoginVisible && <button onClick={signInFacebook}>
@@ -24,12 +25,15 @@ const Login = ({ isLoginVisible, isBannedLocation, isLoaderVisible }) => (
         <div className={styles.logo_text}>Log In</div>
       </button>}
 
-      {isBannedLocation && <h4>Enable geolocation</h4>}
-
-      {isLoaderVisible && <i className="material-icons">loop</i>}
+      <div className={styles.loader_field}>
+        {isLoaderVisible && <i className="material-icons">loop</i>}
+      </div>
     </div>
     <div className={styles.login_item}>
-      <p>Local chat</p>
+      <div className={styles.geo_info}>
+        <i className="material-icons">my_location</i>
+        <h4>Enable geolocation</h4>
+      </div>
     </div>
   </div>
 );

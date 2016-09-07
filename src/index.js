@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import 'normalize.css';
-import { receiveMessage } from './actions/messageActions';
+import { find } from 'lodash';
+import { newMessage, historySnap } from './actions/messageActions';
 import { setLocation, bannedLocation } from './actions/geoActions';
 import Router from './Router';
 import './index.css';
@@ -22,6 +23,27 @@ firebase.initializeApp({
 
 const store = createStore();
 const history = syncHistoryWithStore(browserHistory, store);
+
+function mapUserToMessage(currentMessage) {
+  return firebase
+    .database()
+    .ref(`users/${currentMessage.userId}`)
+    .once('value')
+    .then(snapshot => {
+      const userSnap = snapshot.val();
+
+      return {
+        ...currentMessage,
+        user: {
+          name: userSnap.name,
+          email: userSnap.email,
+          photoUrl: userSnap.photoUrl,
+          uid: userSnap.uid,
+          facebookUid: userSnap.facebookUid,
+        },
+      };
+    });
+}
 
 function pushMessageToStore(message) {
   const state = store.getState();
@@ -42,11 +64,11 @@ function pushMessageToStore(message) {
   //   return null;
   // }
 
-  return store.dispatch(receiveMessage({
+  return mapUserToMessage({
     ...messageEnitity,
     distance,
     key: message.key,
-  }));
+  });
 }
 
 function listenAuth() {
@@ -68,7 +90,50 @@ function listenAuth() {
       firebase
         .database()
         .ref('messages')
-        .on('child_added', pushMessageToStore);
+        .once('value')
+        .then(snap => {
+          const data = snap.val();
+          const state = store.getState();
+
+          const readyData = Object.keys(data).map(key => {
+            const messageEnitity = data[key];
+
+            const distance = calcCrow(
+              state.geo.location.coords.latitude,
+              state.geo.location.coords.longitude,
+              messageEnitity.coords.latitude,
+              messageEnitity.coords.longitude,
+            ).toFixed(1);
+
+            return {
+              ...messageEnitity,
+              distance,
+              key,
+            };
+          });
+
+          return Promise.all(readyData.map(mapUserToMessage));
+        })
+        // .then(result => result.filter(message => message.distance < 5))
+        .then(result => store.dispatch(historySnap(result)))
+        .then(() => {
+          firebase
+            .database()
+            .ref('messages')
+            .limitToLast(1)
+            .on('child_added', messageValue => {
+              const { message: { messages } } = store.getState();
+
+              const isElementExist = find(messages, entity => entity.key === messageValue.key);
+
+              if (isElementExist) {
+                return null;
+              }
+
+              return pushMessageToStore(messageValue)
+                .then(readyMessage => store.dispatch(newMessage(readyMessage)));
+            });
+        });
     } else {
       store.dispatch(authFail());
     }

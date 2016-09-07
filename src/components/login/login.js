@@ -13,7 +13,7 @@ function signInFacebook() {
     .signInWithPopup(provider);
 }
 
-const Login = ({ isLoginVisible, isBannedLocation, isLoaderVisible }) => (
+const Login = ({ isLoginVisible, isLoaderVisible }) => (
   <div className={styles.login}>
     <div className={styles.header}>
       <h4>RECOMEA</h4>

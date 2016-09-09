@@ -26,9 +26,10 @@
 
 .name_field span {
   font-size: 8px;
-  font-weight: 300;
+  font-weight: 400;
   padding-left: 4px;
-  color: #b3b3b3
+  font-style: italic;
+  color: #c9cf97;
 }
 
 .message_field {

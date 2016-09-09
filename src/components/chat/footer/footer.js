@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Editor, EditorState } from 'draft-js';
 import { sendMessage } from '../../../actions/messageActions';
+import WelcomeMessage from '../welcome-message/welcomeMessage';
 import styles from './footer.css';
 
 export class Footer extends PureComponent {
@@ -44,21 +45,24 @@ export class Footer extends PureComponent {
 
   render() {
     return (
-      <div className={styles.footer}>
-        <div className={styles.input_field}>
-          <div className={styles.editor}>
-            <Editor
-              onChange={this.onChange}
-              editorState={this.state.editorState}
-            />
+      <div>
+        <WelcomeMessage />
+        <div className={styles.footer}>
+          <div className={styles.input_field}>
+            <div className={styles.editor}>
+              <Editor
+                onChange={this.onChange}
+                editorState={this.state.editorState}
+              />
+            </div>
           </div>
-        </div>
-        <div className={styles.send_field}>
-          <div
-            onClick={this.onSend}
-            className={styles.send_button}
-          >
-            <i className="material-icons">send</i>
+          <div className={styles.send_field}>
+            <div
+              onClick={this.onSend}
+              className={styles.send_button}
+            >
+              <i className="material-icons">send</i>
+            </div>
           </div>
         </div>
       </div>

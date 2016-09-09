@@ -1,0 +1,8 @@
+.welcome_message {
+  padding: 8px 16px;
+  font-weight: 300;
+  font-size: 14px;
+  color: #c9cf97;
+  border-radius: 4px;
+  font-style: italic;
+}

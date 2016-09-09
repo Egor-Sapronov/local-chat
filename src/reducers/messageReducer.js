@@ -22,6 +22,7 @@ function pushMessageEffect(messageToSend, coords) {
 
 const initialState = {
   messages: [],
+  historyLoaded: false,
 };
 
 export default function message(state = initialState, action) {
@@ -29,6 +30,7 @@ export default function message(state = initialState, action) {
     case HISTORY_SNAP:
       return {
         ...state,
+        historyLoaded: true,
         messages: [...action.snap],
       };
     case NEW_MESSAGE:

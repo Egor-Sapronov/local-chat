@@ -87,13 +87,23 @@ function listenAuth() {
         .then(() => user)
         .then(() => store.dispatch(authSuccess(user)));
 
-      firebase
-        .database()
-        .ref('messages')
+      const yesterday = new Date();
+      const yesterdayTimeStamp = yesterday.setDate(yesterday.getDate() - 1);
+      const lastDayMessages = firebase
+          .database()
+          .ref('messages')
+          .orderByChild('createdAt')
+          .startAt(yesterdayTimeStamp);
+
+      lastDayMessages
         .once('value')
         .then(snap => {
           const data = snap.val();
           const state = store.getState();
+
+          if (!data) {
+            return [];
+          }
 
           const readyData = Object.keys(data).map(key => {
             const messageEnitity = data[key];
@@ -117,9 +127,7 @@ function listenAuth() {
         // .then(result => result.filter(message => message.distance < 5))
         .then(result => store.dispatch(historySnap(result)))
         .then(() => {
-          firebase
-            .database()
-            .ref('messages')
+          lastDayMessages
             .limitToLast(1)
             .on('child_added', messageValue => {
               const { message: { messages } } = store.getState();

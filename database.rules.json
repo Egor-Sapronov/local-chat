@@ -3,7 +3,16 @@
     ".read": "auth != null",
     ".write": "auth != null",
     "messages": {
-      ".indexOn": ["createdAt"]
+      ".indexOn": ["createdAt"],
+      ".write": "!data.exists() || !newData.exists()",
+      "$userId": {
+        ".write": "$userId === auth.uid"
+      }
+    },
+    "users": {
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
     }
   }
 }

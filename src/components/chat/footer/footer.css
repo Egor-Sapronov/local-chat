@@ -5,21 +5,20 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 16px;
+  padding: 2px 16px;
+}
+
+@media (min-width: 760px) {
+  .footer {
+    width: 50vw;
+    margin: 0 auto;
+    border: none;
+  }
 }
 
 .input_field {
   flex-grow: 1;
   display: flex;
-}
-
-.input_field textarea {
-  flex-grow: 1;
-  min-height: 30px;
-  border: 1px solid #ebebeb;
-  border-radius: 4px;
-  padding: 0 8px;
-  overflow: visible;
 }
 
 .input_field .editor {

@@ -13,7 +13,7 @@ function signInFacebook() {
     .signInWithPopup(provider);
 }
 
-const Login = ({ isLoginVisible, isLoaderVisible }) => (
+const Login = ({ isLoginVisible, isLoaderVisible, isLocation }) => (
   <div className={styles.login}>
     <div className={styles.header}>
       <h4>RECOMEA</h4>
@@ -30,10 +30,12 @@ const Login = ({ isLoginVisible, isLoaderVisible }) => (
       </div>
     </div>
     <div className={styles.login_item}>
-      <div className={styles.geo_info}>
-        <i className="material-icons">my_location</i>
-        <h4>Enable geolocation</h4>
-      </div>
+      {!isLocation &&
+        <div className={styles.geo_info}>
+          <i className="material-icons">my_location</i>
+          <h4>Enable geolocation</h4>
+        </div>
+      }
     </div>
   </div>
 );
@@ -42,6 +44,7 @@ Login.propTypes = {
   isLoaderVisible: PropTypes.bool.isRequired,
   isBannedLocation: PropTypes.bool.isRequired,
   isLoginVisible: PropTypes.bool.isRequired,
+  isLocation: PropTypes.bool.isRequired,
 };
 
 const selector = createSelector(
@@ -52,6 +55,7 @@ const selector = createSelector(
     isLoginVisible: !(auth.isLoading || geo.isLoading) && !geo.isBanned,
     isBannedLocation: geo.isBanned,
     isLoaderVisible: !geo.isBanned && (auth.isLoading || geo.isLoading),
+    isLocation: !!geo.location,
   })
 );
 

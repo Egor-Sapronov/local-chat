@@ -5,6 +5,13 @@
   position: relative;
 }
 
+@media (min-width: 760px) {
+  .messages {
+    width: 50vw;
+    margin: 0 auto;
+  }
+}
+
 .scroll {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;

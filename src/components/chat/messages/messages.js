@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { memoize, sortBy } from 'lodash';
+import { memoize, sortBy, last } from 'lodash';
 import styles from './messages.css';
 import Message from '../message/message';
 
@@ -9,11 +9,8 @@ class MessagesComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isScrollLocked: false,
-    };
-
     this.messagesContainer = null;
+    this.isScrollLocked = false;
 
     this.bindMessagesContainer = this.bindMessagesContainer.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
@@ -26,10 +23,10 @@ class MessagesComponent extends Component {
     let isMyMessageLast = false;
 
     if (this.props.messages.length > 0) {
-      isMyMessageLast = messages[messages.length - 1].userId === myUid;
+      isMyMessageLast = last(messages).userId === myUid;
     }
 
-    if (!this.state.isScrollLocked || isMyMessageLast) {
+    if (!this.isScrollLocked || isMyMessageLast) {
       this.messagesContainer.scrollTop = scrollHeight - clientHeight;
     }
   }
@@ -39,13 +36,12 @@ class MessagesComponent extends Component {
   }
 
   handleScroll() {
-    const { scrollHeight, clientHeight, offsetTop } = this.messagesContainer;
-    const { isScrollLocked } = this.state;
+    const { scrollHeight, clientHeight, scrollTop } = this.messagesContainer;
 
-    if (((scrollHeight - offsetTop) >= clientHeight) && isScrollLocked) {
-      this.setState({
-        isScrollLocked: true,
-      });
+    if ((clientHeight + scrollTop) < (scrollHeight - clientHeight)) {
+      this.isScrollLocked = true;
+    } else {
+      this.isScrollLocked = false;
     }
   }
 

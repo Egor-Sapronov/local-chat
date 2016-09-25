@@ -60,9 +60,9 @@ function pushMessageToStore(message) {
     messageEnitity.coords.longitude,
   ).toFixed(1);
 
-  // if (distance > 5) {
-  //   return null;
-  // }
+  if (distance > 5) {
+    return null;
+  }
 
   return mapUserToMessage({
     ...messageEnitity,
@@ -89,13 +89,12 @@ function listenAuth() {
 
       const yesterday = new Date();
       const yesterdayTimeStamp = yesterday.setDate(yesterday.getDate() - 1);
-      const lastDayMessages = firebase
-          .database()
-          .ref('messages')
-          .orderByChild('createdAt')
-          .startAt(yesterdayTimeStamp);
 
-      lastDayMessages
+      firebase
+        .database()
+        .ref('messages')
+        .orderByChild('createdAt')
+        .startAt(yesterdayTimeStamp)
         .once('value')
         .then(snap => {
           const data = snap.val();
@@ -124,10 +123,14 @@ function listenAuth() {
 
           return Promise.all(readyData.map(mapUserToMessage));
         })
-        // .then(result => result.filter(message => message.distance < 5))
+        .then(result => result.filter(message => message.distance < 5))
         .then(result => store.dispatch(historySnap(result)))
         .then(() => {
-          lastDayMessages
+          firebase
+            .database()
+            .ref('messages')
+            .orderByChild('createdAt')
+            .startAt(yesterdayTimeStamp)
             .limitToLast(1)
             .on('child_added', messageValue => {
               const { message: { messages } } = store.getState();

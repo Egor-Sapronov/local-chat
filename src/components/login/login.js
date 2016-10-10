@@ -19,6 +19,9 @@ const Login = ({ isLoginVisible, isLoaderVisible, isLocation }) => (
       <h4>RECOMEA</h4>
       <p>Local chat</p>
     </div>
+    <div className={styles.screen_shot}>
+      <img src={require('./assets/app.png')} role="presentation" />
+    </div>
     <div className={styles.login_item}>
       {isLoginVisible && <button onClick={signInFacebook}>
         <div className={styles.fb_logo} />

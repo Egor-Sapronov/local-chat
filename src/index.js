@@ -60,7 +60,7 @@ function pushMessageToStore(message) {
     messageEnitity.coords.longitude,
   ).toFixed(1);
 
-  if (distance > 5) {
+  if (distance > 10) {
     return null;
   }
 
@@ -123,7 +123,7 @@ function listenAuth() {
 
           return Promise.all(readyData.map(mapUserToMessage));
         })
-        .then(result => result.filter(message => message.distance < 5))
+        .then(result => result.filter(message => message.distance < 10))
         .then(result => store.dispatch(historySnap(result)))
         .then(() => {
           firebase

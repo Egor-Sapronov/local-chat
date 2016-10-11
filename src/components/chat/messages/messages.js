@@ -65,6 +65,7 @@ class MessagesComponent extends Component {
               isReverse={message.userId === myUid}
               uid={message.user.facebookUid}
               distance={message.distance}
+              isAnonymous={message.user.isAnonymous}
             />
           ))}
         </div>

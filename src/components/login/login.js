@@ -13,20 +13,30 @@ function signInFacebook() {
     .signInWithPopup(provider);
 }
 
+function signInIncognito() {
+  return firebase.auth().signInAnonymously().catch(error => console.log(error))
+}
+
 const Login = ({ isLoginVisible, isLoaderVisible, isLocation }) => (
   <div className={styles.login}>
     <div className={styles.header}>
       <h4>RECOMEA</h4>
-      <p>Local chat</p>
-    </div>
-    <div className={styles.screen_shot}>
-      <img src={require('./assets/app.png')} role="presentation" />
+      <p>Helps you feel at home within your local community.</p>
     </div>
     <div className={styles.login_item}>
-      {isLoginVisible && <button onClick={signInFacebook}>
-        <div className={styles.fb_logo} />
-        <div className={styles.logo_text}>Log In</div>
-      </button>}
+      {isLoginVisible &&
+        <div className={styles.login_buttons_group}>
+          <button onClick={signInFacebook} className={styles.fb_login}>
+            <div className={styles.fb_logo} />
+            <div className={styles.logo_text}>Log In</div>
+          </button>
+
+          <button onClick={signInIncognito} className={styles.incognito_login}>
+            <i className="material-icons">visibility_off</i>
+            Anonymous
+          </button>
+        </div>
+      }
 
       <div className={styles.loader_field}>
         {isLoaderVisible && <i className="material-icons">loop</i>}

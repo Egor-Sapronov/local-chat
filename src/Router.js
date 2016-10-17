@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import App from './components/app/app';
 import Login from './components/login/login';
+import LoginNickname from './components/loginNickname/loginNickname';
 import ChatFooter from './components/chat/footer/footer';
 import ChatNavbar from './components/chat/navbar/navbar';
 import Messages from './components/chat/messages/messages';
@@ -38,6 +39,12 @@ class AppRouter extends Component {
             path="login"
             components={{
               content: Login,
+            }}
+          />
+          <Route
+            path="login/nickname"
+            components={{
+              content: LoginNickname,
             }}
           />
           <Route

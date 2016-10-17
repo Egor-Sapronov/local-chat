@@ -73,6 +73,8 @@ function pushMessageToStore(message) {
 }
 
 function setupUser(user) {
+  const { auth: { nickname } } = store.getState();
+
   return !user.isAnonymous ?
     firebase
       .database()
@@ -91,7 +93,7 @@ function setupUser(user) {
       .database()
       .ref(`users/${user.uid}`)
       .set({
-        name: 'Anonymous',
+        name: nickname,
         uid: user.uid,
         isAnonymous: user.isAnonymous,
         photoUrl: require('./assets/incognito_profile_photo.png'),

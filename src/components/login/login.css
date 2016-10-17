@@ -75,6 +75,10 @@
   composes: login_button;
 }
 
+.router_link {
+  text-decoration: none;
+}
+
 .incognito_login i {
   padding: 0 8px;
 }

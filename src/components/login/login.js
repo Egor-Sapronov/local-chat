@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { createSelector } from 'reselect';
 import styles from './login.css';
 
@@ -14,7 +15,7 @@ function signInFacebook() {
 }
 
 function signInIncognito() {
-  return firebase.auth().signInAnonymously().catch(error => console.log(error))
+  return firebase.auth().signInAnonymously();
 }
 
 const Login = ({ isLoginVisible, isLoaderVisible, isLocation }) => (
@@ -31,10 +32,12 @@ const Login = ({ isLoginVisible, isLoaderVisible, isLocation }) => (
             <div className={styles.logo_text}>Log In</div>
           </button>
 
-          <button onClick={signInIncognito} className={styles.incognito_login}>
-            <i className="material-icons">visibility_off</i>
-            Anonymous
-          </button>
+          <Link className={styles.router_link} to="login/nickname">
+            <button className={styles.incognito_login}>
+              <i className="material-icons">visibility_off</i>
+              Anonymous
+            </button>
+          </Link>
         </div>
       }
 

@@ -1,7 +1,8 @@
-import { AUTH_SUCCESS, AUTH_FAIL } from '../actions/authActions';
+import { AUTH_SUCCESS, AUTH_FAIL, SET_NICKNAME } from '../actions/authActions';
 
 const initialState = {
   isLoading: true,
+  nickname: '',
 };
 
 export default function auth(state = initialState, action) {
@@ -11,6 +12,11 @@ export default function auth(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+      };
+    case SET_NICKNAME:
+      return {
+        ...state,
+        nickname: action.nickname,
       };
     default:
       return state;

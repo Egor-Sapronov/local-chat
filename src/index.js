@@ -13,6 +13,13 @@ import './index.css';
 import createStore from './store/store';
 import { authSuccess, authFail } from './actions/authActions';
 import { calcCrow } from './tools/range';
+import {
+  handleFacebookLogin,
+  handleIncognitoLogin,
+  mapUserToMessage,
+  pushMessageToStore,
+  lastDayMessages,
+} from './tools/firebaseHelpers';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyBF3xxye-JVFK2EQ3DAxRDDaIjTbPOWTy0',
@@ -24,99 +31,27 @@ firebase.initializeApp({
 const store = createStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
-function mapUserToMessage(currentMessage) {
-  return firebase
-    .database()
-    .ref(`users/${currentMessage.userId}`)
-    .once('value')
-    .then(snapshot => {
-      const userSnap = snapshot.val();
-
-      return {
-        ...currentMessage,
-        user: {
-          name: userSnap.name,
-          email: userSnap.email,
-          photoUrl: userSnap.photoUrl,
-          uid: userSnap.uid,
-          facebookUid: userSnap.facebookUid,
-          isAnonymous: userSnap.isAnonymous,
-        },
-      };
-    });
-}
-
-function pushMessageToStore(message) {
-  const state = store.getState();
-  const messageEnitity = message.val();
-
-  if (!state.geo.location) {
-    return null;
-  }
-
-  const distance = calcCrow(
-    state.geo.location.coords.latitude,
-    state.geo.location.coords.longitude,
-    messageEnitity.coords.latitude,
-    messageEnitity.coords.longitude,
-  ).toFixed(1);
-
-  if (distance > 10) {
-    return null;
-  }
-
-  return mapUserToMessage({
-    ...messageEnitity,
-    distance,
-    key: message.key,
-  });
-}
-
 function setupUser(user) {
   const { auth: { nickname } } = store.getState();
 
-  return !user.isAnonymous ?
-    firebase
-      .database()
-      .ref(`users/${user.uid}`)
-      .set({
-        name: user.displayName,
-        email: user.email,
-        photoUrl: user.photoURL,
-        uid: user.uid,
-        facebookUid: user.providerData[0].uid,
-        isAnonymous: user.isAnonymous,
-      })
-      .then(() => store.dispatch(authSuccess(user)))
-    :
-    firebase
-      .database()
-      .ref(`users/${user.uid}`)
-      .set({
-        name: nickname,
-        uid: user.uid,
-        isAnonymous: user.isAnonymous,
-        photoUrl: require('./assets/incognito_profile_photo.png'),
-      })
+  if (user.isAnonymous) {
+    return handleIncognitoLogin(user, nickname)
       .then(() => store.dispatch(authSuccess({
         ...user,
         photoURL: require('./assets/incognito_profile_photo.png'),
       })));
+  }
+
+  return handleFacebookLogin(user)
+    .then(() => store.dispatch(authSuccess(user)));
 }
 
 function listenAuth() {
   firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      const yesterday = new Date();
-      const yesterdayTimeStamp = yesterday.setDate(yesterday.getDate() - 1);
-
       return setupUser(user)
         .then(() =>
-        firebase
-          .database()
-          .ref('messages')
-          .orderByChild('createdAt')
-          .startAt(yesterdayTimeStamp)
+        lastDayMessages()
           .once('value')
           .then(snap => {
             const data = snap.val();
@@ -148,14 +83,13 @@ function listenAuth() {
           .then(result => result.filter(message => message.distance < 10))
           .then(result => store.dispatch(historySnap(result)))
           .then(() => {
-            firebase
-              .database()
-              .ref('messages')
-              .orderByChild('createdAt')
-              .startAt(yesterdayTimeStamp)
+            lastDayMessages()
               .limitToLast(1)
               .on('child_added', messageValue => {
-                const { message: { messages } } = store.getState();
+                const {
+                  message: { messages },
+                  geo: { location },
+                } = store.getState();
 
                 const isElementExist = find(messages, entity => entity.key === messageValue.key);
 
@@ -163,7 +97,7 @@ function listenAuth() {
                   return null;
                 }
 
-                return pushMessageToStore(messageValue)
+                return pushMessageToStore(messageValue, location)
                   .then(readyMessage => store.dispatch(newMessage(readyMessage)));
               });
           })

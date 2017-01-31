@@ -3,4 +3,21 @@
   flex: 1;
   height: 100%;
   flex-direction: column;
+  color: #262626;
+}
+
+input[type=text] {
+    /* Remove First */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* Then Style */
+    border-radius: 15px;
+    border: 1px dashed #BBB;
+    padding: 10px;
+    line-height: 20px;
+    text-align: center;
+    background: transparent;
+    outline: none;
 }

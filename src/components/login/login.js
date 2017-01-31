@@ -3,6 +3,7 @@ import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { createSelector } from 'reselect';
+import { setNickname } from '../../actions/authActions';
 import styles from './login.css';
 
 function signInFacebook() {
@@ -18,26 +19,35 @@ function signInIncognito() {
   return firebase.auth().signInAnonymously();
 }
 
-const Login = ({ isLoginVisible, isLoaderVisible, isLocation }) => (
+const Login = ({ isLoginVisible, isLoaderVisible, isLocation, nickname, handleNickChange, isCouldLogin }) => (
   <div className={styles.login}>
     <div className={styles.header}>
       <h4>RECOMEA</h4>
-      <p>Helps you feel at home within your local community.</p>
+      <p>Local-based chat that helps you feel at home within your local community.</p>
     </div>
-    <div className={styles.login_item}>
+    <div className={styles.main}>
       {isLoginVisible &&
         <div className={styles.login_buttons_group}>
-          <button onClick={signInFacebook} className={styles.fb_login}>
-            <div className={styles.fb_logo} />
-            <div className={styles.logo_text}>Log In</div>
+          <input
+            onChange={handleNickChange}
+            value={nickname}
+            className={styles.nickName_input}
+            placeholder="Nickname"
+          />
+          <button
+            disabled={!isCouldLogin}
+            onClick={signInIncognito}
+            className={styles.login_button}
+          >
+            Join
           </button>
-
-          <Link className={styles.router_link} to="login/nickname">
-            <button className={styles.incognito_login}>
-              <i className="material-icons">visibility_off</i>
-              Anonymous
-            </button>
-          </Link>
+          <div>
+            <hr className={styles.login_underline} />
+          </div>
+          <div className={styles.fb_login} onClick={signInFacebook}>
+            <img src={require('./assets/FB-f-Logo__blue_72.png')} />
+            Login with Facebook
+          </div>
         </div>
       }
 
@@ -45,7 +55,7 @@ const Login = ({ isLoginVisible, isLoaderVisible, isLocation }) => (
         {isLoaderVisible && <i className="material-icons">loop</i>}
       </div>
     </div>
-    <div className={styles.login_item}>
+    <div className={styles.footer}>
       {!isLocation &&
         <div className={styles.geo_info}>
           <i className="material-icons">my_location</i>
@@ -61,6 +71,9 @@ Login.propTypes = {
   isBannedLocation: PropTypes.bool.isRequired,
   isLoginVisible: PropTypes.bool.isRequired,
   isLocation: PropTypes.bool.isRequired,
+  nickname: PropTypes.string.isRequired,
+  handleNickChange: PropTypes.func.isRequired,
+  isCouldLogin: PropTypes.bool.isRequired,
 };
 
 const selector = createSelector(
@@ -72,7 +85,14 @@ const selector = createSelector(
     isBannedLocation: geo.isBanned,
     isLoaderVisible: !geo.isBanned && (auth.isLoading || geo.isLoading),
     isLocation: !!geo.location,
+    nickname: auth.nickname,
+    isCouldLogin: auth.nickname.length > 2,
   })
 );
 
-export default connect(selector)(Login);
+export default connect(
+  selector,
+  {
+    handleNickChange: ({ target: { value } }) => setNickname(value),
+  }
+)(Login);

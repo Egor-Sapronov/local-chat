@@ -64,3 +64,8 @@
   padding-left: 8px;
   padding-right: 0;
 }
+
+.link_style {
+  text-decoration: none;
+  color: #000f0f;
+}

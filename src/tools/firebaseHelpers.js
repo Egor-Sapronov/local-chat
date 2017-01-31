@@ -58,7 +58,7 @@ export function pushMessageToStore(message, location) {
     messageEnitity.coords.longitude,
   ).toFixed(1);
 
-  if (distance > 10) {
+  if (distance > process.env.MAX_DISTANCE) {
     return null;
   }
 

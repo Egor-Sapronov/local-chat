@@ -16,6 +16,6 @@ export default () => install()(createStore)(
     ...appReducer,
     routing: routerReducer,
   }, {}),
-  {},
+  { },
   compose(...middleWares)
 );

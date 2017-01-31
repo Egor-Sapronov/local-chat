@@ -36,6 +36,15 @@ class AppRouter extends Component {
             onEnter={this.authRequired}
           />
           <Route
+            path="comments/:id"
+            components={{
+              content: Messages,
+              navbar: ChatNavbar,
+              footer: ChatFooter,
+            }}
+            onEnter={this.authRequired}
+          />
+          <Route
             path="login"
             components={{
               content: Login,

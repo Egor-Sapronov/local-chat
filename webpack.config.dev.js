@@ -27,6 +27,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.MAX_DISTANCE': JSON.stringify(10),
     }),
     new webpack.HotModuleReplacementPlugin(),
     // new ExtractTextPlugin('static/css/[name].[contenthash:8].css'),

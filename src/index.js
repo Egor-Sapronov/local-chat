@@ -80,7 +80,7 @@ function listenAuth() {
 
             return Promise.all(readyData.map(mapUserToMessage));
           })
-          .then(result => result.filter(message => message.distance < 10))
+          .then(result => result.filter(message => message.distance < process.env.MAX_DISTANCE))
           .then(result => store.dispatch(historySnap(result)))
           .then(() => {
             lastDayMessages()

@@ -41,7 +41,11 @@ export default function message(state = initialState, action) {
     case SEND_MESSAGE:
       return loop(
         state,
-        Effects.promise(pushMessageEffect, action.message, action.coords)
+        Effects.promise(
+          pushMessageEffect,
+          action.message,
+          action.coords
+        )
       );
     default:
       return state;

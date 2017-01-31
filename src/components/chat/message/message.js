@@ -4,7 +4,7 @@ import styles from './message.css';
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Message extends PureComponent {
   render() {
-    const { message, avatarUrl, isReverse, date, name, uid, distance, isAnonymous } = this.props;
+    const { message, avatarUrl, isReverse, date, name, uid, distance, isAnonymous, messageId } = this.props;
 
     return (
       <div className={!isReverse ? styles.message : styles.message_reverse}>

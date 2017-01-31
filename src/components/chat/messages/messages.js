@@ -58,6 +58,7 @@ class MessagesComponent extends Component {
           {messages.map(message => (
             <Message
               key={message.key}
+              messageId={message.key}
               date={message.date}
               message={message.message}
               name={message.user.name}

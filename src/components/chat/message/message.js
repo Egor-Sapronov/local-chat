@@ -1,30 +1,28 @@
 import React, { PropTypes, PureComponent } from 'react';
+import Avatar from './avatar/avatar';
+import TextMessage from './textMessage/textMessage';
 import styles from './message.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Message extends PureComponent {
   render() {
-    const { message, avatarUrl, isReverse, date, name, uid, distance, isAnonymous, messageId } = this.props;
+    const { message, avatarUrl, isReverse, date, name, uid, distance, isAnonymous } = this.props;
+    const wrapperStyle = !isReverse ? styles.message : styles.message_reverse;
 
     return (
-      <div className={!isReverse ? styles.message : styles.message_reverse}>
-        <div className={styles.avatar_field}>
-          {!isAnonymous && <a target="_blank" href={`https://facebook.com/${uid}`} rel="noopener noreferrer">
-            <img src={avatarUrl} className={styles.avatar} role="presentation" />
-          </a>}
-
-          {isAnonymous && <img src={avatarUrl} className={styles.avatar} role="presentation" />}
-          <div className={styles.date_field}>{date}</div>
-        </div>
-        <div className={styles.message_field}>
-          { !isReverse &&
-            <div className={styles.name_field}>
-              {name}
-              <span>{distance}km</span>
-            </div>
-          }
-          <div>{message}</div>
-        </div>
+      <div className={wrapperStyle}>
+        <Avatar
+          isAnonymous={isAnonymous}
+          uid={uid}
+          avatarUrl={avatarUrl}
+          date={date}
+        />
+        <TextMessage
+          isReverse={isReverse}
+          distance={distance}
+          name={name}
+          message={message}
+        />
       </div>
     );
   }

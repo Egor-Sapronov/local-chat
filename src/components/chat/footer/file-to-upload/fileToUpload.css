@@ -1,0 +1,20 @@
+.wrapper {
+  padding-left: 16px;
+  padding-bottom: 8px;
+  position: relative;
+  display: inline-block;
+}
+
+.wrapper img {
+  width: 56px;
+  height: 56px;
+  border-radius: 4px;
+}
+
+.wrapper i {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  background-color: #c9cf97;
+  border-radius: 50%;
+}

@@ -2,9 +2,10 @@ import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Editor, EditorState } from 'draft-js';
-import { sendMessage } from '../../../actions/messageActions';
+import { sendMessage, clearImage } from '../../../actions/messageActions';
 import { fileUpload } from '../../../actions/firebase';
 import WelcomeMessage from './welcome-message/welcomeMessage';
+import FileToUpload from './file-to-upload/fileToUpload';
 import Send from './send/send';
 import Image from './image/image';
 import styles from './footer.css';
@@ -24,7 +25,7 @@ export class Footer extends PureComponent {
   }
 
   onSend() {
-    if (!this.state.editorState.getCurrentContent().hasText()) {
+    if (!this.state.editorState.getCurrentContent().hasText() && !this.props.imageUrl) {
       return null;
     }
 
@@ -56,6 +57,10 @@ export class Footer extends PureComponent {
   render() {
     return (
       <div>
+        <FileToUpload
+          handleCrossClick={this.props.handleCrossClick}
+          url={this.props.imageUrl}
+        />
         <WelcomeMessage />
         <div className={styles.footer}>
           <Image
@@ -79,6 +84,8 @@ export class Footer extends PureComponent {
 Footer.propTypes = {
   handleSendMessage: PropTypes.func.isRequired,
   handleFileSelect: PropTypes.func.isRequired,
+  handleCrossClick: PropTypes.func.isRequired,
+  imageUrl: PropTypes.string,
   userId: PropTypes.string.isRequired,
   coords: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
@@ -87,9 +94,11 @@ Footer.propTypes = {
 };
 
 const selector = createSelector(
+  state => state.message,
   state => state.geo,
   state => state.user,
-  (geo, user) => ({
+  (message, geo, user) => ({
+    imageUrl: message.imageUrl,
     coords: {
       latitude: geo.location.coords.latitude,
       longitude: geo.location.coords.longitude,
@@ -101,4 +110,5 @@ const selector = createSelector(
 export default connect(selector, {
   handleSendMessage: sendMessage,
   handleFileSelect: fileUpload,
+  handleCrossClick: clearImage,
 })(Footer);

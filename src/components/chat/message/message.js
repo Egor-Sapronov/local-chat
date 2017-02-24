@@ -6,7 +6,7 @@ import styles from './message.css';
 // eslint-disable-next-line react/prefer-stateless-function
 export default class Message extends PureComponent {
   render() {
-    const { message, avatarUrl, isReverse, date, name, uid, distance, isAnonymous } = this.props;
+    const { message, avatarUrl, isReverse, date, name, uid, distance, isAnonymous, imageUrl } = this.props;
     const wrapperStyle = !isReverse ? styles.message : styles.message_reverse;
 
     return (
@@ -22,6 +22,7 @@ export default class Message extends PureComponent {
           distance={distance}
           name={name}
           message={message}
+          imageUrl={imageUrl}
         />
       </div>
     );
@@ -37,4 +38,5 @@ Message.propTypes = {
   uid: PropTypes.string,
   distance: PropTypes.string.isRequired,
   isAnonymous: PropTypes.bool,
+  imageUrl: PropTypes.string,
 };

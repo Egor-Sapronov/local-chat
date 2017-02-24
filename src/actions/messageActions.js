@@ -2,6 +2,7 @@ export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 export const MESSAGE_SENT = 'MESSAGE_SENT';
 export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
+export const CLEAR_IMAGE = 'CLEAR_IMAGE';
 
 export function receiveMessage(message) {
   return {
@@ -28,5 +29,11 @@ export function sendMessage(message, coords) {
 export function messageSent() {
   return {
     type: MESSAGE_SENT,
+  };
+}
+
+export function clearImage() {
+  return {
+    type: CLEAR_IMAGE,
   };
 }

@@ -67,6 +67,7 @@ class MessagesComponent extends Component {
               uid={message.user.facebookUid}
               distance={message.distance}
               isAnonymous={message.user.isAnonymous}
+              imageUrl={message.imageUrl}
             />
           ))}
         </div>

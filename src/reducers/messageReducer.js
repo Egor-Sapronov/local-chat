@@ -3,10 +3,13 @@ import { Effects, loop } from 'redux-loop';
 import {
   SEND_MESSAGE,
   NEW_MESSAGE,
+  CLEAR_IMAGE,
+  MESSAGE_SENT,
   messageSent,
 } from '../actions/messageActions';
+import { FILE_UPLOAD_COMPLETE } from '../actions/firebase';
 
-function pushMessageEffect(messageToSend, coords) {
+function pushMessageEffect(messageToSend, coords, imageUrl) {
   return firebase
     .database()
     .ref('messages')
@@ -15,16 +18,29 @@ function pushMessageEffect(messageToSend, coords) {
       userId: firebase.auth().currentUser.uid,
       createdAt: Date.now(),
       coords,
+      imageUrl,
     })
     .then(messageSent);
 }
 
 const initialState = {
   messages: [],
+  imageUrl: null,
 };
 
 export default function message(state = initialState, action) {
   switch (action.type) {
+    case MESSAGE_SENT:
+    case CLEAR_IMAGE:
+      return {
+        ...state,
+        imageUrl: null,
+      };
+    case FILE_UPLOAD_COMPLETE:
+      return {
+        ...state,
+        imageUrl: action.file.downloadURL,
+      };
     case NEW_MESSAGE:
       return {
         ...state,
@@ -36,7 +52,8 @@ export default function message(state = initialState, action) {
         Effects.promise(
           pushMessageEffect,
           action.message,
-          action.coords
+          action.coords,
+          state.imageUrl,
         )
       );
     default:

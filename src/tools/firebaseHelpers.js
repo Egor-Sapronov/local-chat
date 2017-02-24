@@ -47,10 +47,6 @@ export function handleIncognitoLogin(user, nickname) {
 export function pushMessageToStore(message, location) {
   const messageEnitity = message.val();
 
-  if (!location) {
-    return null;
-  }
-
   const distance = calcCrow(
     location.coords.latitude,
     location.coords.longitude,
@@ -59,7 +55,7 @@ export function pushMessageToStore(message, location) {
   ).toFixed(1);
 
   if (distance > process.env.MAX_DISTANCE) {
-    return null;
+    return Promise.reject();
   }
 
   return mapUserToMessage({
@@ -70,8 +66,8 @@ export function pushMessageToStore(message, location) {
 }
 
 export function lastDayMessages() {
-  const yesterday = new Date();
-  const yesterdayTimeStamp = yesterday.setDate(yesterday.getDate() - 1);
+  const todateDate = new Date();
+  const yesterdayTimeStamp = todateDate.setDate(todateDate.getDate() - 1);
 
   return firebase
     .database()

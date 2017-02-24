@@ -28,7 +28,7 @@ const selector = createSelector(
   state => state.user,
   state => state.message,
   (user, message) => ({
-    noMessages: message.historyLoaded && !findUserMessages(message.messages, user),
+    noMessages: !findUserMessages(message.messages, user),
   })
 );
 

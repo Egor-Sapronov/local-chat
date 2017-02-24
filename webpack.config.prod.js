@@ -38,13 +38,18 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.MAX_DISTANCE': JSON.stringify(process.env.MAX_DISTANCE),
+      'process.env.INCOGNITO_AVATAR_URL': JSON.stringify(process.env.INCOGNITO_AVATAR_URL),
+      'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+      'process.env.AUTH_DOMAIN': JSON.stringify(process.env.AUTH_DOMAIN),
+      'process.env.DATABASE_URL': JSON.stringify(process.env.DATABASE_URL),
+      'process.env.STORAGE_BUCKET': JSON.stringify(process.env.STORAGE_BUCKET),
     }),
     new ExtractTextPlugin('static/css/[name].[contsenthash:8].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        screw_ie8: true, // React doesn't support IE8
+        screw_ie8: true,
         warnings: false,
       },
       mangle: {
@@ -59,7 +64,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.js$/,
-      loaders: ['react-hot', 'babel'],
+      loaders: ['babel'],
       include: path.join(__dirname, 'src'),
     }, {
       test: /\.css$/,

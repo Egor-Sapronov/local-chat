@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import { Effects, loop } from 'redux-loop';
+import { handleIncognitoLogin, handleFacebookLogin } from '../tools/firebaseHelpers';
 import {
   AUTH_SUCCESS,
   AUTH_FAIL,
@@ -21,13 +22,16 @@ function facebookSigninEffect() {
 
   return firebase.auth()
     .signInWithPopup(provider)
+    .then(() => firebase.auth().currentUser)
+    .then(handleFacebookLogin)
     .then(signInDone);
 }
 
-function incognitoSigninEffect() {
+function incognitoSigninEffect(nickname) {
   return firebase
     .auth()
     .signInAnonymously()
+    .then((user) => handleIncognitoLogin(user, nickname))
     .then(signInDone);
 }
 
@@ -45,6 +49,7 @@ export default function auth(state = initialState, action) {
         state,
         Effects.promise(
           incognitoSigninEffect,
+          state.nickname
         )
       );
     case AUTH_SUCCESS:

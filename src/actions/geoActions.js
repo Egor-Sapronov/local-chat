@@ -8,8 +8,9 @@ export function setLocation(currentLocation) {
   };
 }
 
-export function bannedLocation() {
+export function bannedLocation(error) {
   return {
     type: BANNED_LOCATION,
+    error,
   };
 }

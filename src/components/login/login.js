@@ -19,25 +19,25 @@ const Login = (
     handleSignInIncognito,
     handleSignInFacebook,
   }) => (
-  <div className={styles.login}>
-    <Header />
-    <div className={styles.main}>
-      {isLoginVisible &&
-        <LoginForm
-          nickname={nickname}
-          handleNickChange={handleNickChange}
-          isCouldLogin={isCouldLogin}
-          handleSignInIncognito={handleSignInIncognito}
-          handleSignInFacebook={handleSignInFacebook}
-        />
-      }
+    <div className={styles.login}>
+      <Header />
+      <div className={styles.main}>
+        {isLoginVisible &&
+          <LoginForm
+            nickname={nickname}
+            handleNickChange={handleNickChange}
+            isCouldLogin={isCouldLogin}
+            handleSignInIncognito={handleSignInIncognito}
+            handleSignInFacebook={handleSignInFacebook}
+          />
+        }
 
-      {isLoaderVisible &&
-        <Loader />
-      }
+        {isLoaderVisible &&
+          <Loader />
+        }
+      </div>
+      <Footer isVisible={isLocation} />
     </div>
-    <Footer isVisible={isLocation} />
-  </div>
 );
 
 Login.propTypes = {

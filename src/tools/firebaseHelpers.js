@@ -28,7 +28,7 @@ export function handleFacebookLogin(user) {
       photoUrl: user.photoURL,
       uid: user.uid,
       facebookUid: user.providerData[0].uid,
-      isAnonymous: user.isAnonymous,
+      isAnonymous: false,
     });
 }
 
@@ -39,8 +39,8 @@ export function handleIncognitoLogin(user, nickname) {
     .set({
       name: nickname,
       uid: user.uid,
-      isAnonymous: user.isAnonymous,
-      photoUrl: require('../assets/incognito_profile_photo.png'),
+      isAnonymous: true,
+      photoUrl: process.env.INCOGNITO_AVATAR_URL,
     });
 }
 

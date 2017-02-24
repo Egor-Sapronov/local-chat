@@ -7,25 +7,14 @@ const initialState = {
 export default function user(state = initialState, action) {
   switch (action.type) {
     case AUTH_SUCCESS:
-      if (action.user.isAnonymous) {
-        return {
-          ...state,
-          name: action.user.displayName,
-          email: action.user.email,
-          photoUrl: action.user.photoURL,
-          uid: action.user.uid,
-          facebookUid: null,
-          isLoggedIn: true,
-        };
-      }
-
       return {
         ...state,
+        isAnonymous: action.user.isAnonymous,
         name: action.user.displayName,
         email: action.user.email,
-        photoUrl: action.user.photoURL,
+        photoUrl: action.user.photoUrl,
         uid: action.user.uid,
-        facebookUid: action.user.providerData[0].uid,
+        facebookUid: action.user.facebookUid,
         isLoggedIn: true,
       };
     default:

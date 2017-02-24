@@ -1,0 +1,12 @@
+.send_field {
+  display: flex;
+  padding-left: 16px;
+}
+
+.send_button {
+  margin: 0 8px;
+}
+
+.send_button i {
+  color: #3b579d;
+}

@@ -1,10 +1,7 @@
 import React, { PropTypes } from 'react';
-import styles from './image.css';
 
 const Image = ({ handleSelect }) => (
-  <div
-    className={styles.wrapper}
-  >
+  <div>
     <label htmlFor="imageUploadInput">
       <i className="material-icons">add_a_photo</i>
       <input

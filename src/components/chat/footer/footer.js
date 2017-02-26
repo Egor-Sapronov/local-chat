@@ -2,6 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Editor, EditorState } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 import { sendMessage, clearImage } from '../../../actions/messageActions';
 import { fileUpload } from '../../../actions/firebase';
 import WelcomeMessage from './welcome-message/welcomeMessage';

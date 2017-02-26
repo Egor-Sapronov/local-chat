@@ -19,12 +19,12 @@
 .input_field {
   flex-grow: 1;
   display: flex;
+  padding: 0 8px;
 }
 
 .input_field .editor {
   flex: 1;
-  min-height: 30px;
   border: 1px solid #ebebeb;
   border-radius: 4px;
-  padding: 0 8px;
+  padding: 4px 8px;
 }

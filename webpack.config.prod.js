@@ -44,7 +44,7 @@ module.exports = {
       'process.env.DATABASE_URL': JSON.stringify(process.env.DATABASE_URL),
       'process.env.STORAGE_BUCKET': JSON.stringify(process.env.STORAGE_BUCKET),
     }),
-    new ExtractTextPlugin('static/css/[name].[contsenthash:8].css'),
+    new ExtractTextPlugin('static/css/[name].[hash:8].css'),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({

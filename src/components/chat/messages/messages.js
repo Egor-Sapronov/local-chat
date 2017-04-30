@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import { memoize, sortBy } from 'lodash';
 import styles from './messages.css';
 import Message from '../message/message';
+import Stories from '../stories/stories';
 
 class MessagesComponent extends Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class MessagesComponent extends Component {
 
     return (
       <div className={styles.messages}>
+        <Stories />
         <div
           ref={this.bindMessagesContainer}
           className={styles.scroll}

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { Editor, EditorState } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { sendMessage, clearImage } from '../../../actions/messageActions';
-import { fileUpload } from '../../../actions/firebase';
+import { imageMessageUpload } from '../../../actions/firebase';
 import WelcomeMessage from './welcome-message/welcomeMessage';
 import FileToUpload from './file-to-upload/fileToUpload';
 import Send from './send/send';
@@ -110,6 +110,6 @@ const selector = createSelector(
 
 export default connect(selector, {
   handleSendMessage: sendMessage,
-  handleFileSelect: fileUpload,
+  handleFileSelect: imageMessageUpload,
   handleCrossClick: clearImage,
 })(Footer);

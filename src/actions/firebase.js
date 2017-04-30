@@ -1,17 +1,17 @@
-export const FILE_UPLOAD = 'FILE_UPLOAD';
-export const FILE_UPLOAD_COMPLETE = 'FILE_UPLOAD_COMPLETE';
+export const IMAGE_MESSAGE_UPLOAD = 'IMAGE_MESSAGE_UPLOAD';
+export const IMAGE_MESSAGE_UPLOAD_COMPLETE = 'IMAGE_MESSAGE_UPLOAD_COMPLETE';
 
-export function fileUpload(file, userId) {
+export function imageMessageUpload(file, userId) {
   return {
-    type: FILE_UPLOAD,
+    type: IMAGE_MESSAGE_UPLOAD,
     file,
     userId,
   };
 }
 
-export function fileUploadComplete(file) {
+export function imageMessageUploadComplete(file) {
   return {
-    type: FILE_UPLOAD_COMPLETE,
+    type: IMAGE_MESSAGE_UPLOAD_COMPLETE,
     file,
   };
 }

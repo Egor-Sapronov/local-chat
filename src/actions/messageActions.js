@@ -2,7 +2,7 @@ export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 export const MESSAGE_SENT = 'MESSAGE_SENT';
 export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
-export const CLEAR_IMAGE = 'CLEAR_IMAGE';
+export const CLEAR_IMAGE_MESSAGE = 'CLEAR_IMAGE_MESSAGE';
 
 export function receiveMessage(message) {
   return {
@@ -34,6 +34,6 @@ export function messageSent() {
 
 export function clearImage() {
   return {
-    type: CLEAR_IMAGE,
+    type: CLEAR_IMAGE_MESSAGE,
   };
 }

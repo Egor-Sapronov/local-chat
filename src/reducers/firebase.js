@@ -1,11 +1,11 @@
 import firebase from 'firebase';
 import { Effects, loop } from 'redux-loop';
-import { FILE_UPLOAD, fileUploadComplete } from '../actions/firebase';
+import { IMAGE_MESSAGE_UPLOAD, imageMessageUploadComplete } from '../actions/firebase';
 
 const initialState = {
 };
 
-function fileUploadEffect(file, userId) {
+function imageMessageUploadSelect(file, userId) {
   const storageRef = firebase.storage().ref();
   const metadata = {
     userId,
@@ -14,16 +14,16 @@ function fileUploadEffect(file, userId) {
   return storageRef
     .child(`images/${file.name}`)
     .put(file, metadata)
-    .then(fileUploadComplete);
+    .then(imageMessageUploadComplete);
 }
 
 export default function firebaseState(state = initialState, action) {
   switch (action.type) {
-    case FILE_UPLOAD:
+    case IMAGE_MESSAGE_UPLOAD:
       return loop(
         state,
         Effects.promise(
-          fileUploadEffect,
+          imageMessageUploadSelect,
           action.file,
           action.userId
         )

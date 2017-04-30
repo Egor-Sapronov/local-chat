@@ -3,11 +3,11 @@ import { Effects, loop } from 'redux-loop';
 import {
   SEND_MESSAGE,
   NEW_MESSAGE,
-  CLEAR_IMAGE,
+  CLEAR_IMAGE_MESSAGE,
   MESSAGE_SENT,
   messageSent,
 } from '../actions/messageActions';
-import { FILE_UPLOAD_COMPLETE } from '../actions/firebase';
+import { IMAGE_MESSAGE_UPLOAD_COMPLETE } from '../actions/firebase';
 
 function pushMessageEffect(messageToSend, coords, imageUrl) {
   return firebase
@@ -31,12 +31,12 @@ const initialState = {
 export default function message(state = initialState, action) {
   switch (action.type) {
     case MESSAGE_SENT:
-    case CLEAR_IMAGE:
+    case CLEAR_IMAGE_MESSAGE:
       return {
         ...state,
         imageUrl: null,
       };
-    case FILE_UPLOAD_COMPLETE:
+    case IMAGE_MESSAGE_UPLOAD_COMPLETE:
       return {
         ...state,
         imageUrl: action.file.downloadURL,

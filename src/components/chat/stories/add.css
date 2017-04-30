@@ -1,0 +1,20 @@
+
+.add_new {
+  position: relative;
+  height: 47px;
+}
+
+.add_new img {
+  height: inherit;
+  width: inherit;
+}
+
+.add_new i {
+  font-size: 18px;
+  position: absolute;
+  bottom: 0;
+  right: -4px;
+  background: #3f71ec;
+  color: white;
+  border-radius: 50%;
+}
